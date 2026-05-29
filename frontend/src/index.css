@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-950 text-white antialiased;
+  }
+}
+
+@layer utilities {
+  .drag-active {
+    @apply border-cyan-400 bg-cyan-950/30 scale-[1.02];
+  }
+}

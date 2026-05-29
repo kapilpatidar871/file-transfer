@@ -1,0 +1,16 @@
+[Unit]
+Description=FileShare P2P Transfer App
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/file-transfer/backend
+ExecStart=/var/www/file-transfer/backend/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
