@@ -37,6 +37,7 @@ class CreateRoom implements HttpServerInterface
             "Content-Type: application/json",
             "Content-Length: {$len}",
             "Access-Control-Allow-Origin: *",
+            "Access-Control-Allow-Credentials: true",
             "Access-Control-Allow-Methods: POST, GET, OPTIONS",
             "Access-Control-Allow-Headers: Content-Type",
             "Connection: close",

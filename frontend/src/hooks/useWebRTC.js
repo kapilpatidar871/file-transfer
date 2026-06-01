@@ -4,9 +4,12 @@ import SimplePeer from 'simple-peer'
 const CHUNK_SIZE   = 256 * 1024   // 256 KB per chunk — good balance of speed & stability
 const MAX_BUFFER   = 4 * 1024 * 1024  // pause sending when DataChannel buffer > 4 MB
 const LOW_BUFFER   = 1 * 1024 * 1024  // resume when buffer drains below 1 MB
-// Auto-detect ws:// (dev) vs wss:// (production HTTPS)
-const WS_BASE = import.meta.env.VITE_WS_URL ||
+// WS: set VITE_WS_URL=wss://your-render-app.onrender.com in Vercel env vars
+const WS_BASE  = import.meta.env.VITE_WS_URL ||
   `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}`
+
+// API: set VITE_API_URL=https://your-render-app.onrender.com in Vercel env vars
+const API_BASE = import.meta.env.VITE_API_URL || ''
 
 // Wait for DataChannel buffer to drain — prevents crashes on large files
 function waitForDrain(channel) {
@@ -35,7 +38,7 @@ export function useSender() {
     setStatus('creating')
 
     // 1. Create room on server
-    const res = await fetch('/api/room/create', { method: 'POST' })
+    const res = await fetch(`${API_BASE}/api/room/create`, { method: 'POST' })
     const { code: roomCode } = await res.json()
     setCode(roomCode)
 
