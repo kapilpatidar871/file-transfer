@@ -60,7 +60,28 @@ export function useSender() {
       if (msg.type === 'peer_joined') {
         setStatus('connecting')
         // 3. Create WebRTC peer (initiator)
-        const peer = new SimplePeer({ initiator: true, trickle: true })
+        // ICE servers: STUN (free) + TURN (relay fallback for strict firewalls)
+        const peer = new SimplePeer({
+          initiator: true,
+          trickle: true,
+          config: {
+            iceServers: [
+              { urls: 'stun:stun.l.google.com:19302' },
+              { urls: 'stun:stun1.l.google.com:19302' },
+              // Free TURN from Open Relay Project — handles strict NAT/firewalls
+              {
+                urls: 'turn:openrelay.metered.ca:80',
+                username: 'openrelayproject',
+                credential: 'openrelayproject',
+              },
+              {
+                urls: 'turn:openrelay.metered.ca:443',
+                username: 'openrelayproject',
+                credential: 'openrelayproject',
+              },
+            ],
+          },
+        })
         peerRef.current = peer
 
         peer.on('signal', (data) => ws.send(JSON.stringify({ type: 'offer', data })))
@@ -175,7 +196,26 @@ export function useReceiver() {
       const msg = JSON.parse(e.data)
 
       if (msg.type === 'offer') {
-        const peer = new SimplePeer({ initiator: false, trickle: true })
+        const peer = new SimplePeer({
+          initiator: false,
+          trickle: true,
+          config: {
+            iceServers: [
+              { urls: 'stun:stun.l.google.com:19302' },
+              { urls: 'stun:stun1.l.google.com:19302' },
+              {
+                urls: 'turn:openrelay.metered.ca:80',
+                username: 'openrelayproject',
+                credential: 'openrelayproject',
+              },
+              {
+                urls: 'turn:openrelay.metered.ca:443',
+                username: 'openrelayproject',
+                credential: 'openrelayproject',
+              },
+            ],
+          },
+        })
         peerRef.current = peer
 
         peer.signal(msg.data)
