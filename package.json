@@ -1,0 +1,13 @@
+{
+  "name": "file-transfer-local",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "local": "node local-server.js",
+    "build": "cd frontend && npm install && npm run build"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.1"
+  }
+}
