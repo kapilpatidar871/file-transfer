@@ -11,7 +11,7 @@ import { AD_SLOTS } from '../ads.config'
 import { useSender } from '../hooks/useWebRTC'
 
 const STATUS_LABEL = {
-  creating:   'Starting up server… (first load may take ~30s)',
+  creating:   'Creating room…',
   waiting:    'Waiting for receiver…',
   connecting: 'Connecting…',
   sending:    'Sending…',

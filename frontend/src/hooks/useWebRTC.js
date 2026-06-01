@@ -1,9 +1,9 @@
 import { useRef, useState, useCallback } from 'react'
 import SimplePeer from 'simple-peer'
 
-const CHUNK_SIZE   = 256 * 1024   // 256 KB per chunk — good balance of speed & stability
-const MAX_BUFFER   = 4 * 1024 * 1024  // pause sending when DataChannel buffer > 4 MB
-const LOW_BUFFER   = 1 * 1024 * 1024  // resume when buffer drains below 1 MB
+const CHUNK_SIZE   = 512 * 1024    // 512 KB chunks — faster transfer
+const MAX_BUFFER   = 16 * 1024 * 1024  // pause at 16 MB buffer
+const LOW_BUFFER   = 4  * 1024 * 1024  // resume at 4 MB
 // WS: set VITE_WS_URL=wss://your-render-app.onrender.com in Vercel env vars
 const WS_BASE  = import.meta.env.VITE_WS_URL ||
   `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}`
@@ -65,17 +65,9 @@ export function useSender() {
             iceServers: [
               { urls: 'stun:stun.l.google.com:19302' },
               { urls: 'stun:stun1.l.google.com:19302' },
-              // Free TURN from Open Relay Project — handles strict NAT/firewalls
-              {
-                urls: 'turn:openrelay.metered.ca:80',
-                username: 'openrelayproject',
-                credential: 'openrelayproject',
-              },
-              {
-                urls: 'turn:openrelay.metered.ca:443',
-                username: 'openrelayproject',
-                credential: 'openrelayproject',
-              },
+              { urls: 'stun:stun2.l.google.com:19302' },
+              { urls: 'stun:stun3.l.google.com:19302' },
+              { urls: 'stun:stun4.l.google.com:19302' },
             ],
           },
         })
