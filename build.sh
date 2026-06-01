@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
-echo "==> Installing & building frontend..."
+echo "==> Installing & building React frontend..."
 cd frontend
 npm install
 npm run build
 cd ..
 
-echo "==> Installing backend dependencies..."
+echo "==> Installing PHP backend dependencies..."
 cd backend
-pip install -r requirements.txt
+composer install --no-dev --optimize-autoloader
 cd ..
 
 echo "==> Build complete."

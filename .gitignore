@@ -1,8 +1,5 @@
-# Python
-backend/venv/
-backend/__pycache__/
-*.pyc
-*.pyo
+# PHP
+backend/vendor/
 
 # Node
 frontend/node_modules/
