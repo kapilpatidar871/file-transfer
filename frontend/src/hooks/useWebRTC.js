@@ -11,6 +11,14 @@ const WS_BASE  = import.meta.env.VITE_WS_URL ||
 // API: set VITE_API_URL=https://your-render-app.onrender.com in Vercel env vars
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
+// Pre-warm the Render server as soon as the JS loads
+// so it's awake before the user clicks Send
+if (API_BASE) {
+  fetch(`${API_BASE}/api/room/create`, { method: 'POST' })
+    .then(r => r.json())
+    .catch(() => {}) // silent — just waking the server up
+}
+
 // Wait for DataChannel buffer to drain — prevents crashes on large files
 function waitForDrain(channel) {
   return new Promise((resolve) => {

@@ -7,6 +7,7 @@ use App\SignalingApp;
 use App\Http\CreateRoom;
 use App\Http\RoomStatus;
 use App\Http\StaticFiles;
+use App\Http\Health;
 use Ratchet\App;
 
 $port  = (int) (getenv('PORT') ?: 8080);
@@ -17,6 +18,7 @@ echo "FileShare PHP server starting on port {$port}...\n";
 $app = new App('0.0.0.0', $port, '0.0.0.0');
 
 // ── REST API ────────────────────────────────────────────────
+$app->route('/health',                    new Health(),            ['*']);
 $app->route('/api/room/create',           new CreateRoom($rooms),  ['*']);
 $app->route('/api/room/{code}/status',    new RoomStatus($rooms),  ['*']);
 

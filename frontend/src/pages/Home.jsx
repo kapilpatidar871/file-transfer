@@ -11,12 +11,12 @@ import { AD_SLOTS } from '../ads.config'
 import { useSender } from '../hooks/useWebRTC'
 
 const STATUS_LABEL = {
-  creating:   'Creating room…',
+  creating:   'Starting up server… (first load may take ~30s)',
   waiting:    'Waiting for receiver…',
   connecting: 'Connecting…',
   sending:    'Sending…',
   done:       'Transfer complete!',
-  error:      'Connection failed',
+  error:      'Connection failed — try again',
 }
 
 export default function Home() {
